@@ -76,6 +76,10 @@ class Stock extends React.Component{
 
 
     render(){
+
+        const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+
+
         return (
         <div className="App"> 
          <br />
@@ -94,10 +98,10 @@ class Stock extends React.Component{
                 y: this.state.stockChartYValues,
                 type: 'scatter',
                 mode: 'lines+markers',
-                marker: {color: 'red'},
+                marker: { color: randomColor },
             }
         ]}
-            layout={{width: 720, height: 440, title: 'A Fancy Plot'}}
+            layout={{width: 720, height: 440, title: `This is ${stockName} recent performance`}}
       />
         </div>
         )
