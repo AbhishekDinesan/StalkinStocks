@@ -1,5 +1,7 @@
 import React from "react";
 import Plot from 'react-plotly.js';
+//import 'tailwindcss/dist/tailwind.css';
+import { deviation, mean } from 'd3';
 
 let stockName = "MSFT";
 
@@ -111,11 +113,10 @@ class Stock extends React.Component{
 
         const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
 
-
         return (
         <div className="App"> 
          <br />
-         <h1> Financial Projection Model</h1>
+         <h1 className="text-4xl text-red-500">Financial Projection Model</h1>
          <h4>Stock Symbol: <span id="demo">MSFT</span></h4>
          <div className="form-group">
                <form onSubmit={this.handleSubmit}>
