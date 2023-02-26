@@ -1,9 +1,13 @@
 import React from "react";
 import Plot from 'react-plotly.js';
-//import 'tailwindcss/dist/tailwind.css';
-import { deviation, mean } from 'd3';
+import ReactDOM from 'react-dom';
+import './Stocks.css';
 
-let stockName = "MSFT";
+
+let stockName = "MSFT"; 
+
+const math = require('mathjs');
+var projection = 0;
 
 class Stock extends React.Component{
     constructor (props){
@@ -74,6 +78,8 @@ class Stock extends React.Component{
                     stockChartYValues: stockChartYValuesFunction
                 });
 
+                projection = projectTmrwPrice(stockChartYValuesFunction, 1, 2);
+
                 if(!stockName){
                     document.getElementById('demo').innerHTML= "Nothing available at this time";
                 }     
@@ -108,7 +114,6 @@ class Stock extends React.Component{
         }
     )
     }
-        
     render(){
 
         const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
@@ -116,6 +121,14 @@ class Stock extends React.Component{
         return (
         <div className="App"> 
          <br />
+         <div className="bg-blue-500 text-white p-4">
+        This component has a blue background and white text.
+        <div className="bg-blue-500 text-white p-4">
+      <h1 className="text-3xl font-bold mb-4">Stocks</h1>
+         
+        <p>{projection}</p>
+    </div>
+        </div>
          <h1 className="text-4xl text-red-500">Financial Projection Model</h1>
          <h4>Stock Symbol: <span id="demo">MSFT</span></h4>
          <div className="form-group">
@@ -135,6 +148,11 @@ class Stock extends React.Component{
             }
         ]}
             layout={{width: 720, height: 440, title: `This is ${stockName} recent performance`}}/>
+
+            
+
+
+
         
         <Plot
             data={[
@@ -151,5 +169,39 @@ class Stock extends React.Component{
         )
     }
 }
+
+//calculation functions
+
+//meanDailyChange = (endPrice - startPrice) / startPrice / n
+//stdDevDailyChange = sqrt(sum((price[i] / price[i-1] - 1 - meanDailyChange)^2) / (n-1))
+
+//meandailyaverage of an array
+
+function dailyChange(arr){
+    var length = arr.length;
+    var first = arr[0];
+    var last = arr[length];
+    return (last - first) / first / length; 
+}
+
+function calculateStdDevAsPercent(numbers) {
+    const mean = numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
+    const variance = numbers.reduce((acc, val) => acc + (val - mean) ** 2, 0) / numbers.length;
+    const stdDev = Math.sqrt(variance);
+    const stdDevAsPercent = (stdDev / mean) * 100;
+    return stdDevAsPercent;
+  }
+
+function projectTmrwPrice (curr_price, meanDailyChange, stdDailyChange)
+{
+    const drift = meanDailyChange - (stdDailyChange * stdDailyChange) / 2;
+    const randomShock = stdDailyChange * normSinv(Math.Random());
+    return curr_price * Math.exp(drift + randomShock);
+}
+
+function normSinv(prob) {
+    // Compute the inverse of the CDF of the standard normal distribution
+    return math.round(math.invCdf('normal', prob, {mu: 0, sigma: 1}), 4);
+  }
 
 export default Stock;

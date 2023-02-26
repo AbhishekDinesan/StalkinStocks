@@ -1,6 +1,3 @@
-import 'tailwindcss/dist/tailwind.css';
-
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [],
@@ -8,6 +5,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
-  require('tailwindcss'),
-  require('autoprefixer'),],
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
 }
