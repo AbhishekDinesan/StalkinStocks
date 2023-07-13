@@ -1,13 +1,9 @@
 import React from "react";
 import Plot from 'react-plotly.js';
 import ReactDOM from 'react-dom';
-import './Stocks.css';
-
-
+import './styling/Stocks.css';
 let stockName = "MSFT"; 
-
 const math = require('mathjs');
-var projection = 0;
 
 class Stock extends React.Component{
     constructor (props){
@@ -42,17 +38,13 @@ class Stock extends React.Component{
 
     fetchStock(){
         const pointerToThis = this;
-
         const API_KEY = 'CSAMBGSZAOQJD97Q';
         const API_KEY2 = '88W27I2HX2M3HO8F';
-        //let StockSymbol = 'AMZN';
+        let StockSymbol = 'AMZN';
         let API_CALL = 
         `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockName}&outputsize=compact&apikey=${API_KEY}`;
-
         let API_CALL2 = 
         `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockName}&outputsize=full&apikey=${API_KEY}`;
-
-
         let stockChartXValuesFunction = [];
         let stockChartYValuesFunction = [];
         let stockChartXValuesFunctionFull = [];
@@ -67,7 +59,6 @@ class Stock extends React.Component{
         .then (
             function(data){
                 console.log(data);
-            
                 for (var key in data['Time Series (Daily)']){
                     stockChartXValuesFunction.push(key);
                     stockChartYValuesFunction.push(data['Time Series (Daily)'][key]['1. open']);
@@ -78,7 +69,6 @@ class Stock extends React.Component{
                     stockChartYValues: stockChartYValuesFunction
                 });
 
-                projection = projectTmrwPrice(stockChartYValuesFunction, 1, 2);
 
                 if(!stockName){
                     document.getElementById('demo').innerHTML= "Nothing available at this time";
@@ -115,28 +105,21 @@ class Stock extends React.Component{
     )
     }
     render(){
-
         const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-
         return (
-        <div className="App"> 
-         <br />
-         <div className="bg-blue-500 text-white p-4">
-        This component has a blue background and white text.
-        <div className="bg-blue-500 text-white p-4">
-      <h1 className="text-3xl font-bold mb-4">Stocks</h1>
-         
-        <p>{projection}</p>
-    </div>
-        </div>
-         <h1 className="text-4xl text-red-500">Financial Projection Model</h1>
+
+        <div>
+         <h1>Financial Projection Model</h1>
          <h4>Stock Symbol: <span id="demo">MSFT</span></h4>
+         <h1>`This is ${stockName} recent performance`</h1>
          <div className="form-group">
                <form onSubmit={this.handleSubmit}>
                     <input type="text" className="form-control" value={this.state.value} onChange={this.handleChange}/>
                         <button type="submit" className="form-control btn btn-whatever" >Select Stock</button>
                 </form>
             </div>
+        
+        
         <Plot
             data={[
              {
@@ -147,13 +130,11 @@ class Stock extends React.Component{
                 marker: { color: 'black' },
             }
         ]}
-            layout={{width: 720, height: 440, title: `This is ${stockName} recent performance`}}/>
-
-            
-
-
-
         
+            layout={{width: 720, height: 440,  paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)'}}/>
+
+        <h1>Long-term performance {stockName}</h1>
         <Plot
             data={[
              {
@@ -164,44 +145,10 @@ class Stock extends React.Component{
                 marker: { color: 'red' },
             }
         ]}
-            layout={{width: 720, height: 440, title: `Long-term performance  ${stockName}`}}/>
+            layout={{width: 720, height: 440, paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
+            }}/>
         </div>
         )
     }
 }
-
-//calculation functions
-
-//meanDailyChange = (endPrice - startPrice) / startPrice / n
-//stdDevDailyChange = sqrt(sum((price[i] / price[i-1] - 1 - meanDailyChange)^2) / (n-1))
-
-//meandailyaverage of an array
-
-function dailyChange(arr){
-    var length = arr.length;
-    var first = arr[0];
-    var last = arr[length];
-    return (last - first) / first / length; 
-}
-
-function calculateStdDevAsPercent(numbers) {
-    const mean = numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
-    const variance = numbers.reduce((acc, val) => acc + (val - mean) ** 2, 0) / numbers.length;
-    const stdDev = Math.sqrt(variance);
-    const stdDevAsPercent = (stdDev / mean) * 100;
-    return stdDevAsPercent;
-  }
-
-function projectTmrwPrice (curr_price, meanDailyChange, stdDailyChange)
-{
-    const drift = meanDailyChange - (stdDailyChange * stdDailyChange) / 2;
-    const randomShock = stdDailyChange * normSinv(Math.Random());
-    return curr_price * Math.exp(drift + randomShock);
-}
-
-function normSinv(prob) {
-    // Compute the inverse of the CDF of the standard normal distribution
-    return math.round(math.invCdf('normal', prob, {mu: 0, sigma: 1}), 4);
-  }
-
 export default Stock;

@@ -1,12 +1,11 @@
 import React from 'react';
 import Stock from './Stock';
-import './App.css';
-import './Stocks.css';
+import './styling/App.css';
 
 function App() {
   return (
     <div className="App">
-      <Stock></Stock>
+      <Stock />
     </div>
   );
 }
