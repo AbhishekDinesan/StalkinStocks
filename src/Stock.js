@@ -40,7 +40,6 @@ class Stock extends React.Component{
         const pointerToThis = this;
         const API_KEY = 'CSAMBGSZAOQJD97Q';
         const API_KEY2 = '88W27I2HX2M3HO8F';
-        let StockSymbol = 'AMZN';
         let API_CALL = 
         `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockName}&outputsize=compact&apikey=${API_KEY}`;
         let API_CALL2 = 
@@ -107,19 +106,18 @@ class Stock extends React.Component{
     render(){
         const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
         return (
-
-        <div>
-         <h1>Financial Projection Model</h1>
+    <div>
+         <h1>Stalkin' Stocks</h1>
          <h4>Stock Symbol: <span id="demo">MSFT</span></h4>
          <h1>`This is ${stockName} recent performance`</h1>
-         <div className="form-group">
+    <div className="form-group">
                <form onSubmit={this.handleSubmit}>
                     <input type="text" className="form-control" value={this.state.value} onChange={this.handleChange}/>
                         <button type="submit" className="form-control btn btn-whatever" >Select Stock</button>
                 </form>
-            </div>
-        
-        
+    </div>
+    <div className="card-container">        
+    <div className="card">
         <Plot
             data={[
              {
@@ -131,10 +129,10 @@ class Stock extends React.Component{
             }
         ]}
         
-            layout={{width: 720, height: 440,  paper_bgcolor: 'rgba(0,0,0,0)',
-            plot_bgcolor: 'rgba(0,0,0,0)'}}/>
-
-        <h1>Long-term performance {stockName}</h1>
+            layout={{width: 620, height: 440,  paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)' }}/>
+    </div>
+        <div className="card">
         <Plot
             data={[
              {
@@ -145,9 +143,11 @@ class Stock extends React.Component{
                 marker: { color: 'red' },
             }
         ]}
-            layout={{width: 720, height: 440, paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
+            layout={{width: 620, height: 440, paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
             }}/>
         </div>
+    </div>
+</div>
         )
     }
 }
