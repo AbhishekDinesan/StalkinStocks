@@ -6,6 +6,13 @@ let stockName = "MSFT";
 const math = require('mathjs');
 
 class Stock extends React.Component{
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.selectedStock !== this.state.selectedStock) {
+          this.fetchStock();
+        }
+      }
+
     constructor (props){
         super(props);
         this.state = {
@@ -13,24 +20,14 @@ class Stock extends React.Component{
             stockChartYValues:[],
             stockChartXValuesFull: [],
             stockChartYValuesFull:[],
-            stkName: stockName
+            selectedStock: stockName
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleStockChange = this.handleStockChange.bind(this); // Bind the method
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleStockChange(event) {
+        this.setState({ selectedStock: event.target.value });
       }
-
-    handleSubmit(event) {
-        //changes the new stock symbol, prevents page from refreshing to default
-        const cat = document.getElementById("demo").innerHTML =  this.state.value;
-        stockName = cat;
-        this.setState.value = cat;
-        this.fetchStock();
-        event.preventDefault();
-    }
 
     componentDidMount (){
         this.fetchStock();
@@ -41,9 +38,9 @@ class Stock extends React.Component{
         const API_KEY = 'CSAMBGSZAOQJD97Q';
         const API_KEY2 = '88W27I2HX2M3HO8F';
         let API_CALL = 
-        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockName}&outputsize=compact&apikey=${API_KEY}`;
+        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${this.state.selectedStock}&outputsize=compact&apikey=${API_KEY}`;
         let API_CALL2 = 
-        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockName}&outputsize=full&apikey=${API_KEY}`;
+        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${this.state.selectedStock}&outputsize=full&apikey=${API_KEY}`;
         let stockChartXValuesFunction = [];
         let stockChartYValuesFunction = [];
         let stockChartXValuesFunctionFull = [];
@@ -110,12 +107,21 @@ class Stock extends React.Component{
          <h1>Stalkin' Stocks</h1>
          <h4>Stock Symbol: <span id="demo">MSFT</span></h4>
          <h1>`This is ${stockName} recent performance`</h1>
-    <div className="form-group">
-               <form onSubmit={this.handleSubmit}>
-                    <input type="text" className="form-control" value={this.state.value} onChange={this.handleChange}/>
-                        <button type="submit" className="form-control btn btn-whatever" >Select Stock</button>
-                </form>
-    </div>
+         <div className="form-group">
+  <select
+    className="form-control"
+    value={this.state.selectedStock}
+    onChange={this.handleStockChange}
+  >
+    <option value="MSFT">Microsoft (MSFT)</option>
+    <option value="AAPL">Apple (AAPL)</option>
+    <option value="GOOGL">Alphabet (GOOGL)</option>
+    {/* Add more options for other stocks */}
+  </select>
+  <button type="submit" className="form-control btn btn-whatever">
+    Select Stock
+  </button>
+</div>
     <div className="card-container">        
     <div className="card">
         <Plot
