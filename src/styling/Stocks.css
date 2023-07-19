@@ -1,17 +1,19 @@
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .card {
-    overflow: hidden;
-    box-shadow: 0 2px 20px 'gray';
-    border-radius: 2000px;
-    transition: transform 0.3s ease;
+  overflow: hidden;
+  box-shadow: 0 2px 20px "gray";
+  border-radius: 2000px;
+  transition: transform 0.3s ease;
 }
 
-.card:hover{
-    transform: scale(1.15);
+.card:hover {
+  transform: scale(1.15);
 }
 
 .card-container {
-    display: flex;
-    justify-content: space-between;
-  }
+  display: flex;
+  justify-content: space-between;
+}
