@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  overflow: hidden;
+  box-shadow: 0 2px 20px "gray";
+  border-radius: 20000px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.15);
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+}
