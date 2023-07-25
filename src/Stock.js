@@ -104,7 +104,7 @@ class Stock extends React.Component{
         const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
         return (
     <div class = "title-text">
-         <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Stalkin'</span>Stocks.</h1>
+         <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-black from-red-600">Stalkin'</span>Stocks.</h1>
          <h3 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-2xl dark:text-white">Choose from the dropdown to view <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">stock data</span></h3>
          <h4>Stock Symbol: <span id="demo">MSFT</span></h4>
          <p class="text-sm font-normal text-gray-500 lg:sm dark:text-gray-400">Hey there! AlphaVantage API only supports 5 API calls/min upto 100 calls/day so please be patient!</p>
