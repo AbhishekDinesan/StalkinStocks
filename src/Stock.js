@@ -1,3 +1,4 @@
+//testing
 import React from "react";
 import Plot from 'react-plotly.js';
 import { BsArrowLeftCircleFill } from "react-icons/bs";
@@ -184,7 +185,7 @@ class Stock extends React.Component{
                 mode: 'lines+markers',
                 marker: { color: 'black' },
             }
-        ]}
+        ]} 
         
             layout={{width: 620, height: 440,  paper_bgcolor: 'rgba(0,0,0,0)',
             plot_bgcolor: 'rgba(0,0,0,0)' ,
